@@ -1,22 +1,30 @@
+require("exit-on-epipe");
 var express = require('express');
 var path = require('path');
 var app = express();
 var http = require('http').Server(app);
+var Question = require("./models/questionsModel");
+var seedDB = require("./seed");
 var mongoose = require('mongoose');
-var Question = require('./models/questions');
-var seedDB = require('./seeds.js')
+var bodyParser = require('body-parser');
+var {c, cpp, python, java} = require('compile-run');
 
-// database setup
-mongoose.connect("mongodb://localhost/1v1coding", { useNewUrlParser: true });
+//========================
+// MongoDB setup
+//========================
+mongoose.connect("mongodb://localhost/questionsDB", { useNewUrlParser: true });
+seedDB();
 
-// view engine setup
+//=======================
+// View engine setup
+//=======================
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-seedDB();
+app.use(bodyParser.urlencoded({ extended: false }))
 
 //======================
 //     ROUTES
@@ -27,24 +35,25 @@ app.get("/", (req,res) => {
 });
 
 app.get("/contest/:id", (req,res) => {
-    Question.findOne({'qnumber': req.params.id}, function(err, question){
-        if(err){
-            console.log("Error in loading question");
-        } else {
-            res.render("contest", {id:req.params.id, question:question});
-        }
-    })
+    res.render("contest", {id:req.params.id});
 });
 
 app.get("/admin", (req,res) => {
-    res.render("admin");
+    Question.find({}, (err,questionsList) => {
+        if(err) {
+            console.log(err);
+        } else {
+            //Basically sends all the questions in the DB to front end to populate the dropdown
+            res.render("admin", {questions:questionsList});
+        }
+    });
 });
 
 //=======================
 // STARTING THE SERVER
 //=======================
 
-// var server = app.listen(process.env.PORT, function(){
+// http.listen(process.env.PORT, function(){
 var server = app.listen(3000, function(){
   console.log('listening on *:3000');
 });
@@ -59,10 +68,24 @@ var io = socket().listen(server);
 io.on('connection', function(socket){
     socket.on("joinContest", (id) => {
         socket.join(id);
-        console.log("Someone joined room" + id);
     });
 
-    socket.on("startContest", (id) => {
-        io.to(id).emit("start");
+    socket.on("startContest", (data) => {
+        //Search the DB for the question using the _id provided by the frontend
+        Question.find({_id:data.questionID}, (err,question)=> {
+            if(err) {
+                console.log(err);
+            } else {
+                io.to(data.roomID).emit("start", question);
+            }
+        });
+    });
+
+    socket.on("gameOver", (roomID) => {
+        socket.broadcast.to(roomID).emit("lost");
+    });
+
+    socket.on('error', function(e){
+    	console.log(e);
     });
 });
