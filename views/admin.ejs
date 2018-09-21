@@ -3,119 +3,62 @@
     <title>1vs1 Coding</title>
   </head>
   <body>
-    <button id="1">Start room 1</button>
-    <label>Question No.
-		<select name="question">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-            <option>7</option>
-            <option>8</option>
-		</select>
-	</label>
-    <br>
-    <button id="2">Start room 2</button>
-    <label>Question No.
-		<select name="question">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-            <option>7</option>
-            <option>8</option>
-		</select>
-	</label>
-    <br>
-    <button id="3">Start room 3</button>
-    <label>Question No.
-		<select name="question">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-            <option>7</option>
-            <option>8</option>
-		</select>
-	</label>
-    <br>
-    <button id="4">Start room 4</button>
-    <label>Question No.
-		<select name="question">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-            <option>7</option>
-            <option>8</option>
-		</select>
-	</label>
-    <br>
-    <button id="5">Start room 5</button>
-    <label>Question No.
-		<select name="question">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-            <option>7</option>
-            <option>8</option>
-		</select>
-	</label>
-    <br>
-    <button id="6">Start room 6</button>
-    <label>Question No.
-		<select name="question">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-            <option>7</option>
-            <option>8</option>
-		</select>
-	</label>
-    <br>
-    <button id="7">Start room 7</button>
-    <label>Question No.
-		<select name="question">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-            <option>7</option>
-            <option>8</option>
-		</select>
-	</label>
-    <br>
-    <button id="8">Start room 8</button>
-    <label>Question No.
-		<select name="question">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-            <option>7</option>
-            <option>8</option>
-		</select>
-	</label>
-    <br>
-
+    <select id="1_select">
+      <% questions.forEach((question)=> { %>
+        <option value=<%=question._id%> ><%= question.question%></option>
+      <% });%>
+    </select>
+    <button id="1">Start room 1</button><br>
+    
+    <select id="2_select">
+      <% questions.forEach((question)=> { %>
+        <option value=<%=question._id%> ><%= question.question%></option>
+      <% });%>
+    </select>
+    <button id="2">Start room 2</button><br>
+    
+    <select id="3_select">
+      <% questions.forEach((question)=> { %>
+        <option value=<%=question._id%> ><%= question.question%></option>
+      <% });%>
+    </select>
+    <button id="3">Start room 3</button><br>
+    
+    <select id="4_select">
+      <% questions.forEach((question)=> { %>
+        <option value=<%=question._id%> ><%= question.question%></option>
+      <% });%>
+    </select>
+    <button id="4">Start room 4</button><br>
+    
+    <select id="5_select">
+      <% questions.forEach((question)=> { %>
+        <option value=<%=question._id%> ><%= question.question%></option>
+      <% });%>
+    </select>
+    <button id="5">Start room 5</button><br>
+    
+    <select id="6_select">
+      <% questions.forEach((question)=> { %>
+        <option value=<%=question._id%> ><%= question.question%></option>
+      <% });%>
+    </select>
+    <button id="6">Start room 6</button><br>
+    
+    <select id="7_select">
+      <% questions.forEach((question)=> { %>
+        <option value=<%=question._id%> ><%= question.question%></option>
+      <% });%>
+    </select>
+    <button id="7">Start room 7</button><br>
+    
+    <select id="8_select">
+      <% questions.forEach((question)=> { %>
+        <option value=<%=question._id%> ><%= question.question%></option>
+      <% });%>
+    </select>
+    <button id="8">Start room 8</button><br>
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/admin.js"></script>
